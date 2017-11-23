@@ -47,14 +47,18 @@ class WebsiteCrawler
     ]
     ua =(rand() * user_agent_array.size).to_i
     user_agent = user_agent_array[ua]
+    puts user_agent
     begin
       doc = Nokogiri::HTML open(@url, "User-Agent" => user_agent).read
     rescue OpenURI::HTTPError
+      puts 'HTTPError'
       doc =''
     rescue Exception => redirect
       begin
+        puts 'redirect'
         doc = Nokogiri::HTML open(redirect.to_s.split(" ")[-1], "User-Agent" => user_agent).read
       rescue Exception
+        puts 'Exception'
         doc=''
       end
     end
